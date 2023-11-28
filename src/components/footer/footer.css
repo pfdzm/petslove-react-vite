@@ -1,0 +1,19 @@
+footer .container-fluid {
+  background-color: #f4aa9a;
+  padding: 40px 16px 16px 16px;
+}
+
+footer .container-fluid {
+  background-color: #f4aa9a;
+  padding: 40px 16px 16px 16px;
+}
+footer .social {
+  margin: 8px;
+}
+footer .social li {
+  margin-right: 1rem;
+  list-style: none;
+}
+footer .social li:hover {
+  transform: scale(1.2);
+}
