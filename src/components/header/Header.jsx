@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import "./header.css";
-import logo from "../../assets/images/Logo.png";
+import logo from "/images/Logo.png";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";

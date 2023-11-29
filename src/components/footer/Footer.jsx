@@ -1,9 +1,9 @@
 import React from "react";
 import "./footer.css";
-import logo from "../../assets/images/Logo.png";
-import fb from "../../assets/images/fb.png";
-import line from "../../assets/images/line.png";
-import ig from "../../assets/images/ig.png";
+import logo from "/images/Logo.png";
+import fb from "/images/fb.png";
+import line from "/images/line.png";
+import ig from "/images/ig.png";
 
 import Container from "react-bootstrap/Container";
 
