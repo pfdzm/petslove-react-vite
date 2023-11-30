@@ -2,12 +2,31 @@ import React, { useState, useEffect } from "react";
 import "./products.css";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
-
+import { v4 as uuidv4 } from "uuid";
 function Products() {
   const [products, setProducts] = useState([]);
+  const [images, setImages] = useState({});
+
+  // 使用 import.meta.glob 引入照片
+  useEffect(() => {
+    const importImages = async () => {
+      const imagesContext = import.meta.glob("/images/*.{jpg,png,gif}");
+      const imagesObject = {};
+
+      // 遍歷 imagesContext 並將它們加入 imagesObject 中
+      for (const path in imagesContext) {
+        imagesObject[path] = imagesContext[path]();
+      }
+
+      setImages(imagesObject);
+    };
+
+    importImages();
+  }, []); // 空的依賴項表示僅在組件初次渲染時執行
+
   const datas = [
     {
-      id: new Date().getTime(),
+      id: uuidv4(),
       name: "Pet Snack 1",
       img_url: "/images/proddetail-1.jpg",
       price: 10.99,
@@ -15,7 +34,7 @@ function Products() {
       order: "pre-order",
     },
     {
-      id: new Date().getTime(),
+      id: uuidv4(),
       name: "Pet Snack 2",
       img_url: "/images/proddetail-2.jpg",
       price: 12.99,
@@ -23,7 +42,7 @@ function Products() {
       order: "in-stock",
     },
     {
-      id: new Date().getTime(),
+      id: uuidv4(),
       name: "Pet Snack 3",
       img_url: "/images/proddetail-3.png",
       price: 8.49,
@@ -31,7 +50,7 @@ function Products() {
       order: "in-stock",
     },
     {
-      id: new Date().getTime(),
+      id: uuidv4(),
       name: "Pet Snack 4",
       img_url: "/images/proddetail-4.jpg",
       price: 15.99,
@@ -39,7 +58,7 @@ function Products() {
       order: "customized",
     },
     {
-      id: new Date().getTime(),
+      id: uuidv4(),
       name: "Pet Snack 5",
       img_url: "/images/proddetail-5.jpg",
       price: 9.99,
@@ -47,7 +66,7 @@ function Products() {
       order: "customized",
     },
     {
-      id: new Date().getTime(),
+      id: uuidv4(),
       name: "Pet Snack 6",
       img_url: "/images/proddetail-6.jpg",
       price: 11.49,
@@ -56,7 +75,7 @@ function Products() {
       order: "in-stock",
     },
     {
-      id: new Date().getTime(),
+      id: uuidv4(),
       name: "Pet Snack 7",
       img_url: "/images/proddetail-7.jpg",
       price: 13.99,
@@ -64,7 +83,7 @@ function Products() {
       order: "in-stock",
     },
     {
-      id: new Date().getTime(),
+      id: uuidv4(),
       name: "Pet Snack 8",
       img_url: "/images/proddetail-8.jpg",
       price: 14.49,
@@ -72,7 +91,7 @@ function Products() {
       order: "pre-order",
     },
     {
-      id: new Date().getTime(),
+      id: uuidv4(),
       name: "Pet Snack 9",
       img_url: "/images/proddetail-9.jpg",
       price: 7.99,
@@ -80,7 +99,7 @@ function Products() {
       order: "pre-order",
     },
     {
-      id: new Date().getTime(),
+      id: uuidv4(),
       name: "Pet Snack 10",
       img_url: "/images/proddetail-10.jpg",
       price: 16.99,
@@ -88,6 +107,7 @@ function Products() {
       order: "customized",
     },
   ];
+
   const productList = document.querySelector("#productList");
 
   // Function to create a product card JSX
@@ -95,7 +115,16 @@ function Products() {
     return (
       <div key={product.id} className="col-lg-3 col-md-4 product">
         <div className="card mb-4 shadow-sm">
-          <img src={product.img_url} className="card-img-top" alt="..." />
+          <img
+            src={images[product.img_url]?.default}
+            className="card-img-top"
+            alt="..."
+            onError={(e) => {
+              // 在圖片載入失敗時執行的處理邏輯
+              console.error(`Error loading image: ${product.img_url}`);
+              e.target.src = "/path/to/fallback-image.jpg"; // 替換為備用圖片的路徑
+            }}
+          />
           <div className="card-body">
             <p className="card-text">{product.order}</p>
             <p className="card-text">{product.name}</p>

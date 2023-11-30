@@ -1,0 +1,11 @@
+// jsconfig.json
+{
+  "compilerOptions": {
+    "baseUrl": "src",
+    "paths": {
+      "@components/*": ["components/*"],
+      "@pages/*": ["pages/*"]
+    }
+  },
+  "include": ["src/**/*"]
+}
