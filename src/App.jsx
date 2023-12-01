@@ -1,11 +1,11 @@
-import { useState } from "react";
+/* eslint-disable react/no-unescaped-entities */
+// import { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import Header from "./components/header/Header";
 import SubscriptionForm from "./components/SubscriptionForm";
 import Footer from "./components/footer/Footer";
 import Products from "./components/products/Products";
-
 function App() {
   return (
     <>

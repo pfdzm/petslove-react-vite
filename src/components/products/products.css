@@ -1,6 +1,27 @@
 .container {
   max-width: 960px;
   margin: 0 auto;
-  padding-right: 16px;
-  padding-left: 16px;
+  padding: 0;
+}
+
+.object-fit {
+  object-fit: cover;
+}
+.products {
+  max-width: 25%;
+  padding: 8px;
+}
+.card {
+  padding: 8px;
+}
+
+@media (max-width: 768px) {
+  .products {
+    max-width: 33.33%;
+  }
+}
+@media (max-width: 576px) {
+  .products {
+    max-width: 100%;
+  }
 }
