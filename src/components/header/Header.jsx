@@ -28,7 +28,7 @@ const SearchBox = ({ text, onSearchHandler }) => {
 };
 //search input function
 const SearchInput = () => {
-  const [text, setText] = useState();
+  const [text, setText] = useState("");
 
   const onSearchHandler = (e) => {
     console.log(e.target.value);

@@ -1,64 +1,45 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./products.css";
 import datas from "./datas.json";
 
 //Tab Filter product component
 const Products = () => {
   const [activeTab, setActiveTab] = useState("all");
-  const [products, setProducts] = useState(datas);
-  const [sortType, setSortType] = useState("asc"); // 初始排序方式為升序
-  const [selectedCategory, setSelectedCategory] = useState("all"); // 新增一個狀態變數
+  const [sortType, setSortType] = useState("asc");
   const [sortedAndFilteredProducts, setSortedAndFilteredProducts] = useState(
-    []
+    datas.toSorted((a, b) => a.price - b.price)
   );
   const tabItems = ["pre-order", "in-stock", "customized", "all"];
   //handle filter click
   const handleTabClick = (tabType) => {
     setActiveTab(tabType);
-    setSelectedCategory(
-      tabType === "pork" ||
-        tabType === "duck" ||
-        tabType === "chicken" ||
-        tabType === "beef" ||
-        tabType === "other"
-        ? tabType
-        : "all"
+    if (tabType === "all") {
+      setSortedAndFilteredProducts(
+        datas.toSorted((a, b) => {
+          return sortType === "asc" ? a.price - b.price : b.price - a.price;
+        })
+      );
+      return;
+    }
+    setSortedAndFilteredProducts(
+      datas
+        .filter((d) => d.order === tabType)
+        .toSorted((a, b) => {
+          return sortType === "asc" ? a.price - b.price : b.price - a.price;
+        })
     );
   };
 
   // handle sort click
   const handleSortType = (selectedSortType) => {
+    setSortType(selectedSortType);
     // 如果選擇的排序方式不是 "asc" 或 "desc"，則設定為預設值 "asc"
-    const validSortTypes = ["asc", "desc"];
-    setSortType(
-      validSortTypes.includes(selectedSortType) ? selectedSortType : "asc"
+    setSortedAndFilteredProducts((products) =>
+      products.toSorted((a, b) =>
+        selectedSortType === "asc" ? a.price - b.price : b.price - a.price
+      )
     );
   };
-
-  const filterAndSortProducts = () => {
-    let filteredProducts = products;
-
-    if (activeTab !== "all") {
-      filteredProducts = filteredProducts.filter(
-        (product) => product.order === activeTab
-      );
-    }
-    if (selectedCategory !== "all") {
-      filteredProducts = filteredProducts.filter(
-        (product) => product.type === selectedCategory
-      );
-    }
-    if (sortType === "asc") {
-      filteredProducts = filteredProducts.sort((a, b) => a.price - b.price);
-    } else if (sortType === "desc") {
-      filteredProducts = filteredProducts.sort((a, b) => b.price - a.price);
-    }
-    setSortedAndFilteredProducts(filteredProducts);
-  };
-
-  useEffect(() => {
-    filterAndSortProducts();
-  }, [sortType, activeTab, products]);
 
   // Card component: create a product card JSX(Product)
   const CreateDataCard = ({ data }) => {
@@ -145,13 +126,16 @@ const Products = () => {
               defaultValue={"increase"}
               onChange={(e) => handleSortType(e.target.value)}
             >
-              <option value="asc">High to Low </option>
-              <option value="desc">Low to High</option>
+              <option value="asc">Low to High</option>
+              <option value="desc">High to Low </option>
+              {/* 
+              not really sure what sorting by Pork or Chicken are supposed to do ...
               <option value="pork">Pork</option>
               <option value="duck">Duck</option>
               <option value="chicken">Chicken</option>
               <option value="beef">Beef</option>
               <option value="other">Other</option>
+               */}
             </select>
           </div>
 
